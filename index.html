@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOP Digital Product → Meta Ads</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#687386;
+  --line:#e4e8ef;
+  --primary:#2563eb;
+  --primary-dark:#1d4ed8;
+  --green:#16a34a;
+  --yellow:#d97706;
+  --red:#dc2626;
+  --dark:#111827;
+  --radius:16px;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.6;
+}
+
+header{
+  background:linear-gradient(135deg,#111827,#1e3a8a);
+  color:white;
+  padding:48px 20px 42px;
+}
+
+.container{
+  width:min(1100px,calc(100% - 32px));
+  margin:auto;
+}
+
+.badge{
+  display:inline-block;
+  padding:6px 12px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  font-size:12px;
+  letter-spacing:.5px;
+  margin-bottom:14px;
+}
+
+h1{
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.1;
+  margin:0 0 12px;
+}
+
+.subtitle{
+  color:#dbeafe;
+  max-width:750px;
+  font-size:17px;
+}
+
+.dashboard{
+  margin-top:-25px;
+  position:relative;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.stat{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:0 8px 25px rgba(15,23,42,.06);
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.stat-value{
+  font-size:28px;
+  font-weight:800;
+  margin-top:3px;
+}
+
+.progress-wrap{
+  margin-top:20px;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:20px;
+}
+
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:10px;
+  font-weight:700;
+}
+
+.progress{
+  height:12px;
+  background:#e5e7eb;
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  width:0%;
+  height:100%;
+  background:var(--primary);
+  transition:.3s;
+}
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:22px 0;
+}
+
+input[type="search"]{
+  flex:1;
+  min-width:220px;
+  border:1px solid var(--line);
+  background:white;
+  border-radius:10px;
+  padding:12px 14px;
+  font-size:14px;
+  outline:none;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:11px 15px;
+  cursor:pointer;
+  font-weight:700;
+  background:var(--dark);
+  color:white;
+}
+
+button:hover{opacity:.9}
+
+.section{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  margin:14px 0;
+  overflow:hidden;
+  box-shadow:0 4px 16px rgba(15,23,42,.04);
+}
+
+.section-head{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:20px;
+  cursor:pointer;
+}
+
+.number{
+  min-width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:#eff6ff;
+  color:var(--primary);
+  font-weight:800;
+}
+
+.section-title{
+  flex:1;
+}
+
+.section-title h2{
+  margin:0;
+  font-size:18px;
+}
+
+.section-title p{
+  margin:2px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.section-status{
+  font-size:12px;
+  font-weight:800;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#f3f4f6;
+  color:#6b7280;
+}
+
+.section-status.pass{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.section-status.warn{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.section-status.fail{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.arrow{
+  transition:.25s;
+}
+
+.section.open .arrow{
+  transform:rotate(180deg);
+}
+
+.section-body{
+  display:none;
+  border-top:1px solid var(--line);
+  padding:22px;
+}
+
+.section.open .section-body{
+  display:block;
+}
+
+h3{
+  margin:22px 0 10px;
+  font-size:15px;
+}
+
+h3:first-child{margin-top:0}
+
+.checklist{
+  display:grid;
+  gap:8px;
+}
+
+.check{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding:10px 12px;
+  border-radius:10px;
+  background:#f8fafc;
+  border:1px solid transparent;
+}
+
+.check:hover{
+  border-color:#dbeafe;
+}
+
+.check input{
+  margin-top:5px;
+  width:17px;
+  height:17px;
+  accent-color:var(--primary);
+}
+
+.check.checked{
+  background:#f0fdf4;
+  text-decoration:line-through;
+  color:#64748b;
+}
+
+.callout{
+  border-left:4px solid var(--primary);
+  background:#eff6ff;
+  padding:14px 16px;
+  border-radius:8px;
+  margin:15px 0;
+}
+
+.warning{
+  border-left-color:var(--yellow);
+  background:#fffbeb;
+}
+
+.danger{
+  border-left-color:var(--red);
+  background:#fef2f2;
+}
+
+.formula{
+  background:#111827;
+  color:#f9fafb;
+  padding:16px;
+  border-radius:10px;
+  font-family:monospace;
+  white-space:pre-wrap;
+  margin:12px 0;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin:12px 0;
+}
+
+th,td{
+  padding:10px;
+  border:1px solid var(--line);
+  text-align:left;
+}
+
+th{
+  background:#f8fafc;
+}
+
+footer{
+  padding:50px 20px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.hidden{
+  display:none!important;
+}
+
+@media(max-width:750px){
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .section-head{
+    padding:15px;
+  }
+
+  .section-body{
+    padding:16px;
+  }
+
+  .section-status{
+    display:none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="container">
+
+<span class="badge">MASTER SOP • META ADS DIGITAL PRODUCT</span>
+
+<h1>Digital Product → Meta Ads</h1>
+
+<p class="subtitle">
+Sistem operasional untuk menemukan produk, memvalidasi opportunity,
+membuat offer, creative, landing page, tracking, testing, retargeting,
+hingga scale.
+</p>
+
+</div>
+</header>
+
+<main class="container dashboard">
+
+<div class="stats">
+
+<div class="stat">
+<div class="stat-label">Checklist Selesai</div>
+<div class="stat-value" id="done">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">Total Checklist</div>
+<div class="stat-value" id="total">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">Progress</div>
+<div class="stat-value" id="percent">0%</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">Status</div>
+<div class="stat-value" id="overall">DRAFT</div>
+</div>
+
+</div>
+
+<div class="progress-wrap">
+<div class="progress-top">
+<span>Launch Readiness</span>
+<span id="progressText">0%</span>
+</div>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+</div>
+
+<div class="toolbar">
+<input type="search" id="search" placeholder="Cari checklist...">
+<button onclick="expandAll()">Buka Semua</button>
+<button onclick="collapseAll()">Tutup Semua</button>
+<button onclick="resetAll()">Reset</button>
+</div>
+
+
+<!-- SECTION TEMPLATE -->
+
+<div class="section open">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">01</div>
+
+<div class="section-title">
+<h2>Product Discovery</h2>
+<p>Temukan opportunity, bukan sekadar ide produk.</p>
+</div>
+
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<h3>Market</h3>
+
+<div class="checklist">
+
+<label class="check">
+<input type="checkbox">
+<span>Problem nyata.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Audience jelas.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Audience cukup besar.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Audience dapat ditemukan di Meta.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Problem cukup sering terjadi.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Ada urgency.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Ada buying intent.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Ada willingness to pay.</span>
+</label>
+
+</div>
+
+<h3>Competitor Research</h3>
+
+<div class="checklist">
+
+<label class="check">
+<input type="checkbox">
+<span>Meta Ads competitor sudah dicari.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Marketplace sudah dicek.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>TikTok / Instagram sudah dicek.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>YouTube sudah dicek.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Solusi gratis sudah dicek.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Sudah dicek apakah AI dapat menggantikannya.</span>
+</label>
+
+<label class="check">
+<input type="checkbox">
+<span>Competitor gap sudah ditemukan.</span>
+</label>
+
+</div>
+
+<div class="callout">
+<strong>Output:</strong><br>
+Competitor Gap → Opportunity → Why Us
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">02</div>
+<div class="section-title">
+<h2>Appraisal Opportunity</h2>
+<p>Timbang opportunity sebelum membuat produk.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="callout">
+<strong>Rumus:</strong><br><br>
+Nilai Kriteria = Skor (0–10) × Bobot
+</div>
+
+<div class="checklist">
+
+<label class="check"><input type="checkbox"><span>16 kriteria appraisal dasar sudah dinilai.</span></label>
+<label class="check"><input type="checkbox"><span>Demand sudah dinilai.</span></label>
+<label class="check"><input type="checkbox"><span>Pain sudah dinilai.</span></label>
+<label class="check"><input type="checkbox"><span>Buying Intent sudah dinilai.</span></label>
+<label class="check"><input type="checkbox"><span>Competition sudah dinilai.</span></label>
+<label class="check"><input type="checkbox"><span>Meta Compatibility sudah dinilai.</span></label>
+<label class="check"><input type="checkbox"><span>Toolability sudah dinilai.</span></label>
+<label class="check"><input type="checkbox"><span>Hidden Opportunity sudah dicari.</span></label>
+
+</div>
+
+<div class="formula">TOTAL SCORE
+= Σ (Skor × Bobot)</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">03</div>
+<div class="section-title">
+<h2>Product Design</h2>
+<p>One audience + one problem + one outcome.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="checklist">
+
+<label class="check"><input type="checkbox"><span>Target audience spesifik.</span></label>
+<label class="check"><input type="checkbox"><span>Problem spesifik.</span></label>
+<label class="check"><input type="checkbox"><span>Outcome spesifik.</span></label>
+<label class="check"><input type="checkbox"><span>Mechanism jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Quick win tersedia.</span></label>
+<label class="check"><input type="checkbox"><span>Time-to-value pendek.</span></label>
+<label class="check"><input type="checkbox"><span>Produk mudah digunakan.</span></label>
+<label class="check"><input type="checkbox"><span>User tahu langkah berikutnya.</span></label>
+
+</div>
+
+<h3>Tool-First Check</h3>
+
+<div class="checklist">
+
+<label class="check"><input type="checkbox"><span>Calculator</span></label>
+<label class="check"><input type="checkbox"><span>Generator</span></label>
+<label class="check"><input type="checkbox"><span>Checker</span></label>
+<label class="check"><input type="checkbox"><span>Analyzer</span></label>
+<label class="check"><input type="checkbox"><span>Planner</span></label>
+<label class="check"><input type="checkbox"><span>Simulator</span></label>
+<label class="check"><input type="checkbox"><span>Scoring Tool</span></label>
+<label class="check"><input type="checkbox"><span>AI Assistant</span></label>
+<label class="check"><input type="checkbox"><span>Automation</span></label>
+
+</div>
+
+<div class="callout">
+<strong>Prioritas:</strong> Tool + Guide jika masalah memungkinkan diselesaikan dengan tool.
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">04</div>
+<div class="section-title">
+<h2>Product Value</h2>
+<p>Outcome + Shortcut + Convenience + Certainty.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="checklist">
+
+<label class="check"><input type="checkbox"><span>Menghemat waktu.</span></label>
+<label class="check"><input type="checkbox"><span>Mengurangi kesalahan.</span></label>
+<label class="check"><input type="checkbox"><span>Mengurangi kebingungan.</span></label>
+<label class="check"><input type="checkbox"><span>Mempercepat hasil.</span></label>
+<label class="check"><input type="checkbox"><span>Memberikan keputusan.</span></label>
+<label class="check"><input type="checkbox"><span>Memberikan template/tool.</span></label>
+<label class="check"><input type="checkbox"><span>Memberikan contoh.</span></label>
+<label class="check"><input type="checkbox"><span>Ada quick win.</span></label>
+
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">05</div>
+<div class="section-title">
+<h2>Offer</h2>
+<p>Jual outcome, bukan jumlah halaman.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="checklist">
+
+<label class="check"><input type="checkbox"><span>Core product jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Outcome jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Mechanism jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Bonus relevan.</span></label>
+<label class="check"><input type="checkbox"><span>Bonus mempercepat hasil.</span></label>
+<label class="check"><input type="checkbox"><span>Harga jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Value jauh lebih besar daripada harga.</span></label>
+<label class="check"><input type="checkbox"><span>CTA jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Risk reversal tersedia.</span></label>
+
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">06</div>
+<div class="section-title">
+<h2>Visual Psychology</h2>
+<p>Pattern interrupt, visual hierarchy dan attention direction.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<h3>Pattern Interrupt</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Visual berbeda dari mayoritas feed.</span></label>
+<label class="check"><input type="checkbox"><span>Kontras cukup kuat.</span></label>
+<label class="check"><input type="checkbox"><span>Subject langsung terlihat.</span></label>
+<label class="check"><input type="checkbox"><span>Pesan dapat dipahami dalam 1–2 detik.</span></label>
+</div>
+
+<h3>Visual Priming</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Outcome ditampilkan sedini mungkin.</span></label>
+<label class="check"><input type="checkbox"><span>Product/demo muncul di awal.</span></label>
+<label class="check"><input type="checkbox"><span>Before-after digunakan bila nyata.</span></label>
+</div>
+
+<h3>Eye Direction</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Komposisi mengarahkan mata ke pesan utama.</span></label>
+<label class="check"><input type="checkbox"><span>Elemen visual mengarahkan perhatian ke CTA.</span></label>
+</div>
+
+<h3>Color</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Kontras tinggi.</span></label>
+<label class="check"><input type="checkbox"><span>CTA mudah ditemukan.</span></label>
+<label class="check"><input type="checkbox"><span>Brand tetap konsisten.</span></label>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">07</div>
+<div class="section-title">
+<h2>Meta Ads Creative</h2>
+<p>Stop → Identify → Curiosity → Click.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<h3>Creative Angles</h3>
+
+<div class="checklist">
+
+<label class="check"><input type="checkbox"><span>Pain</span></label>
+<label class="check"><input type="checkbox"><span>Mistake</span></label>
+<label class="check"><input type="checkbox"><span>Money Loss</span></label>
+<label class="check"><input type="checkbox"><span>Time Loss</span></label>
+<label class="check"><input type="checkbox"><span>Curiosity</span></label>
+<label class="check"><input type="checkbox"><span>Tool Demo</span></label>
+<label class="check"><input type="checkbox"><span>Before / After</span></label>
+<label class="check"><input type="checkbox"><span>Comparison</span></label>
+<label class="check"><input type="checkbox"><span>Outcome</span></label>
+<label class="check"><input type="checkbox"><span>Case Study</span></label>
+
+</div>
+
+<h3>Creative Matrix</h3>
+
+<div class="formula">ANGLE × HOOK × VISUAL
+
+Target awal:
+5 angle × 3 creative = 15 creative</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">08</div>
+<div class="section-title">
+<h2>Hypnotic Copywriting</h2>
+<p>Persuasi kuat tanpa deceptive manipulation.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<h3>Embedded Action Language</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Menggunakan kata aksi secara natural.</span></label>
+<label class="check"><input type="checkbox"><span>Kata penting diberi emphasis secara strategis.</span></label>
+</div>
+
+<h3>Pacing & Leading</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Mulai dari realitas yang dialami audience.</span></label>
+<label class="check"><input type="checkbox"><span>Kemudian mengarahkan ke possibility/solution.</span></label>
+</div>
+
+<h3>Curiosity / Pattern Shift</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Memunculkan curiosity gap.</span></label>
+<label class="check"><input type="checkbox"><span>Jawaban diberikan setelah curiosity terbentuk.</span></label>
+</div>
+
+<h3>Presupposition</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Mengajak audience membayangkan outcome.</span></label>
+<label class="check"><input type="checkbox"><span>Tidak mengasumsikan pembelian sudah terjadi.</span></label>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">09</div>
+<div class="section-title">
+<h2>Ads Copy</h2>
+<p>Hook → Problem → Consequence → Mechanism → Solution → Proof → CTA.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="formula">HOOK
+↓
+PROBLEM
+↓
+CONSEQUENCE
+↓
+NEW MECHANISM
+↓
+SOLUTION
+↓
+BENEFIT
+↓
+PROOF
+↓
+CTA</div>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Hook kuat.</span></label>
+<label class="check"><input type="checkbox"><span>Problem jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Consequence jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Mechanism jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Benefit konkret.</span></label>
+<label class="check"><input type="checkbox"><span>Proof nyata.</span></label>
+<label class="check"><input type="checkbox"><span>CTA jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Tidak misleading.</span></label>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">10</div>
+<div class="section-title">
+<h2>Landing Page</h2>
+<p>Message match dan conversion architecture.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<h3>Above The Fold</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Target audience jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Problem jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Outcome jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Mechanism jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Product terlihat.</span></label>
+<label class="check"><input type="checkbox"><span>CTA terlihat.</span></label>
+</div>
+
+<h3>Struktur LP</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Hook</span></label>
+<label class="check"><input type="checkbox"><span>Problem</span></label>
+<label class="check"><input type="checkbox"><span>Agitation</span></label>
+<label class="check"><input type="checkbox"><span>New Mechanism</span></label>
+<label class="check"><input type="checkbox"><span>Product</span></label>
+<label class="check"><input type="checkbox"><span>How It Works</span></label>
+<label class="check"><input type="checkbox"><span>Demo / Preview</span></label>
+<label class="check"><input type="checkbox"><span>Benefits</span></label>
+<label class="check"><input type="checkbox"><span>Proof</span></label>
+<label class="check"><input type="checkbox"><span>Offer</span></label>
+<label class="check"><input type="checkbox"><span>Bonus</span></label>
+<label class="check"><input type="checkbox"><span>Guarantee</span></label>
+<label class="check"><input type="checkbox"><span>FAQ</span></label>
+<label class="check"><input type="checkbox"><span>CTA</span></label>
+</div>
+
+<h3>Mobile</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Responsive.</span></label>
+<label class="check"><input type="checkbox"><span>Loading cepat.</span></label>
+<label class="check"><input type="checkbox"><span>Font mudah dibaca.</span></label>
+<label class="check"><input type="checkbox"><span>CTA mudah diklik.</span></label>
+<label class="check"><input type="checkbox"><span>Checkout tested.</span></label>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">11</div>
+<div class="section-title">
+<h2>Trust & Proof</h2>
+<p>Hilangkan keraguan pembeli.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Identitas penjual jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Kontak jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Screenshot produk.</span></label>
+<label class="check"><input type="checkbox"><span>Preview.</span></label>
+<label class="check"><input type="checkbox"><span>Testimoni nyata.</span></label>
+<label class="check"><input type="checkbox"><span>FAQ.</span></label>
+<label class="check"><input type="checkbox"><span>Cara akses jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Payment terpercaya.</span></label>
+<label class="check"><input type="checkbox"><span>Refund policy bila ada.</span></label>
+</div>
+
+<div class="callout warning">
+<strong>Jangan gunakan:</strong> fake testimonial, fake purchase notification,
+fake visitor count, fake scarcity, fake discount, atau fake authority.
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">12</div>
+<div class="section-title">
+<h2>Cognitive Bias & Conversion</h2>
+<p>Gunakan psikologi untuk memperjelas value, bukan menipu.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<h3>Anchoring</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Anchor memiliki dasar nyata.</span></label>
+<label class="check"><input type="checkbox"><span>Harga pembanding benar-benar relevan.</span></label>
+</div>
+
+<h3>Loss Aversion</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Biaya tidak bertindak dijelaskan secara realistis.</span></label>
+<label class="check"><input type="checkbox"><span>Tidak menggunakan fearmongering berlebihan.</span></label>
+</div>
+
+<h3>Authority</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Kredensial nyata.</span></label>
+<label class="check"><input type="checkbox"><span>Data nyata.</span></label>
+<label class="check"><input type="checkbox"><span>Logo/partner benar-benar sah digunakan.</span></label>
+</div>
+
+<h3>Reciprocity</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Free resource benar-benar berguna.</span></label>
+<label class="check"><input type="checkbox"><span>Tidak menggunakan guilt-trip.</span></label>
+</div>
+
+<h3>Consistency</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Micro-commitment relevan.</span></label>
+<label class="check"><input type="checkbox"><span>Quiz/diagnosis memberikan value.</span></label>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">13</div>
+<div class="section-title">
+<h2>Commitment & Micro Conversion</h2>
+<p>Bangun engagement sebelum meminta purchase.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Scroll engagement.</span></label>
+<label class="check"><input type="checkbox"><span>Demo click.</span></label>
+<label class="check"><input type="checkbox"><span>Calculator/tool usage.</span></label>
+<label class="check"><input type="checkbox"><span>Quiz.</span></label>
+<label class="check"><input type="checkbox"><span>Free sample.</span></label>
+<label class="check"><input type="checkbox"><span>Preview.</span></label>
+<label class="check"><input type="checkbox"><span>Checkout.</span></label>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">14</div>
+<div class="section-title">
+<h2>Pain Reactivation</h2>
+<p>Gunakan reminder yang relevan, bukan guilt.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Problem diingatkan kembali.</span></label>
+<label class="check"><input type="checkbox"><span>Konsekuensi dijelaskan secara realistis.</span></label>
+<label class="check"><input type="checkbox"><span>Solution diberikan.</span></label>
+<label class="check"><input type="checkbox"><span>CTA jelas.</span></label>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">15</div>
+<div class="section-title">
+<h2>Retargeting</h2>
+<p>Sequential storytelling dan audience segmentation.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<h3>Sequential Storytelling</h3>
+
+<table>
+<tr>
+<th>Hari</th>
+<th>Pesan</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Problem Awareness</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Agitation</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Solution</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Proof</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Offer</td>
+</tr>
+</table>
+
+<h3>Audience Segment</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Website Visitor.</span></label>
+<label class="check"><input type="checkbox"><span>Engaged Audience.</span></label>
+<label class="check"><input type="checkbox"><span>View Content.</span></label>
+<label class="check"><input type="checkbox"><span>Initiate Checkout.</span></label>
+<label class="check"><input type="checkbox"><span>Add to Cart.</span></label>
+<label class="check"><input type="checkbox"><span>Existing Buyer.</span></label>
+</div>
+
+<h3>Frequency Management</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Creative retargeting bervariasi.</span></label>
+<label class="check"><input type="checkbox"><span>Ad fatigue dimonitor.</span></label>
+<label class="check"><input type="checkbox"><span>Tidak sengaja membombardir audience.</span></label>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">16</div>
+<div class="section-title">
+<h2>Tracking</h2>
+<p>Pastikan data benar sebelum mengeluarkan budget.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Meta Pixel.</span></label>
+<label class="check"><input type="checkbox"><span>PageView.</span></label>
+<label class="check"><input type="checkbox"><span>ViewContent.</span></label>
+<label class="check"><input type="checkbox"><span>InitiateCheckout.</span></label>
+<label class="check"><input type="checkbox"><span>Purchase.</span></label>
+<label class="check"><input type="checkbox"><span>UTM.</span></label>
+<label class="check"><input type="checkbox"><span>Test conversion.</span></label>
+<label class="check"><input type="checkbox"><span>Test purchase.</span></label>
+</div>
+
+<div class="callout danger">
+<strong>TRACKING ERROR = JANGAN SCALE.</strong>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">17</div>
+<div class="section-title">
+<h2>Unit Economics</h2>
+<p>Pastikan produk bisa menghasilkan profit.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="formula">CPA
+= Ad Spend ÷ Purchases
+
+ROAS
+= Revenue ÷ Ad Spend
+
+Profit
+= Revenue − Ad Spend − seluruh biaya
+
+Break-even ROAS
+= 1 ÷ Gross Margin</div>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Harga jual diketahui.</span></label>
+<label class="check"><input type="checkbox"><span>Biaya produk diketahui.</span></label>
+<label class="check"><input type="checkbox"><span>Payment fee diketahui.</span></label>
+<label class="check"><input type="checkbox"><span>Break-even CPA diketahui.</span></label>
+<label class="check"><input type="checkbox"><span>Target CPA diketahui.</span></label>
+<label class="check"><input type="checkbox"><span>Break-even ROAS diketahui.</span></label>
+<label class="check"><input type="checkbox"><span>Testing budget diketahui.</span></label>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">18</div>
+<div class="section-title">
+<h2>Testing</h2>
+<p>Baca funnel, jangan hanya melihat sales.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="formula">IMPRESSION
+↓
+HOOK
+↓
+CTR
+↓
+LP VIEW
+↓
+CHECKOUT
+↓
+PURCHASE</div>
+
+<table>
+<tr>
+<th>Gejala</th>
+<th>Diagnosis</th>
+</tr>
+<tr>
+<td>Impression tinggi + CTR rendah</td>
+<td>Creative / Hook</td>
+</tr>
+<tr>
+<td>CTR bagus + LP buruk</td>
+<td>Message mismatch / LP</td>
+</tr>
+<tr>
+<td>LP bagus + checkout rendah</td>
+<td>Offer / Trust / Price</td>
+</tr>
+<tr>
+<td>Checkout bagus + purchase rendah</td>
+<td>Checkout / Payment / Friction</td>
+</tr>
+</table>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">19</div>
+<div class="section-title">
+<h2>Kill Rule</h2>
+<p>Tentukan kapan berhenti sebelum launch.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Batas spend ditentukan.</span></label>
+<label class="check"><input type="checkbox"><span>Batas CPA ditentukan.</span></label>
+<label class="check"><input type="checkbox"><span>Batas CTR ditentukan.</span></label>
+<label class="check"><input type="checkbox"><span>Creative failure threshold ditentukan.</span></label>
+<label class="check"><input type="checkbox"><span>Offer failure threshold ditentukan.</span></label>
+<label class="check"><input type="checkbox"><span>Product failure threshold ditentukan.</span></label>
+</div>
+
+<div class="callout danger">
+Jangan terus menyuntik budget ke campaign hanya karena berharap besok akan membaik.
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">20</div>
+<div class="section-title">
+<h2>Iterate & Scale</h2>
+<p>Scale what works.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<h3>Iterate</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Hook baru.</span></label>
+<label class="check"><input type="checkbox"><span>Visual baru.</span></label>
+<label class="check"><input type="checkbox"><span>Angle baru.</span></label>
+<label class="check"><input type="checkbox"><span>Copy baru.</span></label>
+<label class="check"><input type="checkbox"><span>Offer variation.</span></label>
+<label class="check"><input type="checkbox"><span>LP variation.</span></label>
+</div>
+
+<h3>Scale</h3>
+
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Winning creative dipertahankan.</span></label>
+<label class="check"><input type="checkbox"><span>Variasi winning creative dibuat.</span></label>
+<label class="check"><input type="checkbox"><span>Budget dinaikkan bertahap.</span></label>
+<label class="check"><input type="checkbox"><span>CPA dimonitor.</span></label>
+<label class="check"><input type="checkbox"><span>Conversion rate dimonitor.</span></label>
+<label class="check"><input type="checkbox"><span>Refund dimonitor.</span></label>
+<label class="check"><input type="checkbox"><span>Profit dimonitor.</span></label>
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-head" onclick="toggleSection(this)">
+<div class="number">21</div>
+<div class="section-title">
+<h2>FINAL LAUNCH GATE</h2>
+<p>Jika critical gate gagal → jangan launch.</p>
+</div>
+<span class="section-status">0%</span>
+<span class="arrow">▼</span>
+</div>
+
+<div class="section-body">
+
+<h3>PRODUCT</h3>
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Problem nyata.</span></label>
+<label class="check"><input type="checkbox"><span>Audience jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Outcome jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Quick win.</span></label>
+<label class="check"><input type="checkbox"><span>Differentiation.</span></label>
+<label class="check"><input type="checkbox"><span>Tool / AI opportunity dicek.</span></label>
+</div>
+
+<h3>OFFER</h3>
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Value jelas.</span></label>
+<label class="check"><input type="checkbox"><span>Harga masuk.</span></label>
+<label class="check"><input type="checkbox"><span>Bonus relevan.</span></label>
+<label class="check"><input type="checkbox"><span>CTA jelas.</span></label>
+</div>
+
+<h3>CREATIVE</h3>
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>5+ angle.</span></label>
+<label class="check"><input type="checkbox"><span>3+ hook.</span></label>
+<label class="check"><input type="checkbox"><span>3+ visual.</span></label>
+<label class="check"><input type="checkbox"><span>Product demonstration.</span></label>
+</div>
+
+<h3>LP</h3>
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Above fold kuat.</span></label>
+<label class="check"><input type="checkbox"><span>Message match.</span></label>
+<label class="check"><input type="checkbox"><span>Proof.</span></label>
+<label class="check"><input type="checkbox"><span>Preview.</span></label>
+<label class="check"><input type="checkbox"><span>FAQ.</span></label>
+<label class="check"><input type="checkbox"><span>Mobile tested.</span></label>
+<label class="check"><input type="checkbox"><span>Checkout tested.</span></label>
+</div>
+
+<h3>TRACKING</h3>
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Pixel.</span></label>
+<label class="check"><input type="checkbox"><span>Events.</span></label>
+<label class="check"><input type="checkbox"><span>Purchase tested.</span></label>
+<label class="check"><input type="checkbox"><span>UTM.</span></label>
+</div>
+
+<h3>ECONOMICS</h3>
+<div class="checklist">
+<label class="check"><input type="checkbox"><span>Break-even CPA.</span></label>
+<label class="check"><input type="checkbox"><span>Target CPA.</span></label>
+<label class="check"><input type="checkbox"><span>Break-even ROAS.</span></label>
+<label class="check"><input type="checkbox"><span>Testing budget.</span></label>
+<label class="check"><input type="checkbox"><span>Kill rule.</span></label>
+</div>
+
+</div>
+</div>
+
+
+</main>
+
+<footer>
+<strong>MASTER PRINCIPLE</strong><br><br>
+Cari masalah bernilai → buat solusi sederhana → bangun offer →
+buat creative → konversikan traffic → ukur data → test → diagnose →
+iterate → scale.
+</footer>
+
+
+<script>
+
+const STORAGE_KEY = "meta_ads_sop_v1";
+
+const checks = [...document.querySelectorAll('input[type="checkbox"]')];
+
+function save(){
+
+  const data = checks.map(c => c.checked);
+
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+
+}
+
+function load(){
+
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+  checks.forEach((c,i)=>{
+    if(saved[i]) c.checked = true;
+  });
+
+}
+
+function update(){
+
+  const done = checks.filter(c=>c.checked).length;
+  const total = checks.length;
+
+  const percent = total ? Math.round(done/total*100) : 0;
+
+  document.getElementById("done").textContent = done;
+  document.getElementById("total").textContent = total;
+  document.getElementById("percent").textContent = percent+"%";
+  document.getElementById("progressText").textContent = percent+"%";
+  document.getElementById("progressBar").style.width = percent+"%";
+
+  let status="DRAFT";
+
+  if(percent >= 90) status="READY";
+  else if(percent >= 60) status="RISK";
+  else status="DRAFT";
+
+  document.getElementById("overall").textContent=status;
+
+  document.querySelectorAll(".section").forEach(section=>{
+
+    const sectionChecks = [...section.querySelectorAll('input[type="checkbox"]')];
+
+    const sectionDone =
+      sectionChecks.filter(c=>c.checked).length;
+
+    const sectionTotal = sectionChecks.length;
+
+    const sectionPercent =
+      sectionTotal ?
+      Math.round(sectionDone/sectionTotal*100) : 0;
+
+    const statusEl =
+      section.querySelector(".section-status");
+
+    if(!statusEl) return;
+
+    statusEl.textContent=sectionPercent+"%";
+
+    statusEl.classList.remove("pass","warn","fail");
+
+    if(sectionPercent===100){
+      statusEl.classList.add("pass");
+    }else if(sectionPercent>=60){
+      statusEl.classList.add("warn");
+    }else{
+      statusEl.classList.add("fail");
+    }
+
+  });
+
+  checks.forEach(c=>{
+    c.closest(".check").classList.toggle("checked",c.checked);
+  });
+
+}
+
+checks.forEach(c=>{
+  c.addEventListener("change",()=>{
+    save();
+    update();
+  });
+});
+
+function toggleSection(head){
+
+  head.parentElement.classList.toggle("open");
+
+}
+
+function expandAll(){
+
+  document.querySelectorAll(".section")
+    .forEach(s=>s.classList.add("open"));
+
+}
+
+function collapseAll(){
+
+  document.querySelectorAll(".section")
+    .forEach(s=>s.classList.remove("open"));
+
+}
+
+function resetAll(){
+
+  if(confirm("Reset seluruh checklist?")){
+
+    checks.forEach(c=>c.checked=false);
+
+    localStorage.removeItem(STORAGE_KEY);
+
+    update();
+
+  }
+
+}
+
+document.getElementById("search").addEventListener("input",function(){
+
+  const query=this.value.toLowerCase();
+
+  document.querySelectorAll(".section").forEach(section=>{
+
+    const text=section.innerText.toLowerCase();
+
+    section.classList.toggle(
+      "hidden",
+      query && !text.includes(query)
+    );
+
+  });
+
+});
+
+load();
+update();
+
+</script>
+
+</body>
+</html>
